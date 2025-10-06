@@ -1,427 +1,226 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio for elementerzz, a Roblox Game Developer and Graphic Designer with experience in scripting, modeling, and GUI design.">
-    <link rel="icon" type="image/png" href="https://via.placeholder.co/32x32/000000/FFFFFF?text=E"> <!-- Minimalist 'E' icon -->
-    <title>elementerzz's Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Fancybox CSS for image lightbox -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
-    <link rel='stylesheet' href='styles.css'>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mic Monitor — Low-Latency Reverb (Stable)</title>
+  <style>
+    body{font-family:Inter,system-ui,Arial;background:#071021;color:#e6eef6;padding:22px}
+    .card{max-width:980px;margin:0 auto;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:18px;border-radius:12px}
+    h1{margin:0 0 6px}
+    .controls{display:grid;grid-template-columns:1fr 360px;gap:14px}
+    .btn-row{display:flex;gap:8px;margin-bottom:10px}
+    button{padding:10px 12px;border-radius:8px;border:0;font-weight:600;cursor:pointer}
+    .start{background:#10b981;color:#02140d}.stop{background:#ef4444}
+    label{font-size:13px;color:#9aa4b2}
+    input[type=range]{width:100%}
+    select,input[type=number]{width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .section{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;margin-bottom:10px}
+    .meter{height:44px;border-radius:8px;background:linear-gradient(90deg,#072033,#05121e);display:flex;align-items:center;padding:6px}
+    .meter-bar{flex:1;height:24px;border-radius:6px;background:#041829;position:relative;overflow:hidden}
+    .meter-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:linear-gradient(90deg,#10b981,#06b6d4)}
+    .log{font-family:monospace;font-size:12px;color:#9fb7c9;max-height:160px;overflow:auto;background:rgba(2,6,10,0.4);padding:8px;border-radius:6px;margin-top:8px}
+    .small{font-size:13px;color:#9aa4b2}
+    .status{font-weight:700;margin-top:8px}
+    .row{display:flex;gap:8px;align-items:center}
+  </style>
 </head>
-<body class="antialiased text-gray-800">
+<body>
+  <div class="card">
+    <h1>Mic Monitor — Low-Latency Reverb (Stable)</h1>
+    <p class="small">This page now includes a robust low-latency AudioWorklet reverb plus a safe convolution fallback. I added an explicit <strong>Test Reverb</strong> button (plays a short impulse) so you can confirm reverb is working without speaking. Use Aggressive Mode for the worklet reverb (lowest latency). If the worklet fails, the page will automatically build a convolution IR and use it.</p>
 
-    <!-- Fancybox JS for image lightbox -->
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-    <script src='scripts.js'></script>
-
-    <!-- Main Container -->
-    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
-
-        <!-- Header Section -->
-        <header class="text-center mb-12">
-            <!-- Main H1 for the page title, semantically correct -->
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">elementerzz's Portfolio</h1>
-            <p class="mt-2 text-lg text-gray-600">Game Developer & Graphic Designer</p>
-        </header>
-
-        <!-- Grid Layout for Bio and Work History -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-            <!-- Left Column: Bio Section -->
-            <aside class="lg:col-span-4">
-                <div class="bg-white p-6 rounded-2xl shadow-lg sticky top-8 content-box">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4 border-b pb-2">Bio</h2>
-                    <div class="space-y-4 content-prose">
-                        <h3>👋 Hi there, I'm elementerzz!</h3>
-                        <p>I'm an experienced programmer in many different game genres. I am experienced with obbies and simulators and other classical games. I have contributed to front-page games as well.</p>
-                        <p>I am also a graphic designer that can create many different designs. I am specifically skilled in the creation of simple and professional icons for games and groups, and for GUI in games.</p>
-                        <p><strong>I've contributed to over 300M visits</strong></p>
-                    </div>
-
-                    <!-- Call to Action Section -->
-                    <div class="mt-6">
-                         <!-- Modified "Hire Me" button to open the contact modal -->
-                         <button id="hireMeBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg inline-block text-center hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105 active:scale-95">
-                            Hire Me
-                         </button>
-                         <!-- Social links removed as requested -->
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Right Column: Work History Section -->
-            <main class="lg:col-span-8">
-                <div class="bg-white p-6 rounded-2xl shadow-lg content-box">
-                    <!-- Section Title is H2, semantically correct -->
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6 border-b pb-3">Work History</h2>
-                    <div class="space-y-8">
-
-                        <!-- Project Entry: Graphic Design -->
-                        <div class="flex flex-col md:flex-row gap-6">
-                            <div class="flex-shrink-0 flex justify-center md:justify-start">
-                                <!-- Updated Icon: Paintbrush for Graphic Design (Lucide) -->
-                                <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paintbrush w-7 h-7">
-                                        <path d="M18.37 2.63c-1.3-.9-3.33-.9-4.64 0l-9.13 9.13a4 4 0 0 0-1.25 2.76V21h4.6c1.13 0 2.2-.42 3.03-1.25L21.37 7c.9-.89.9-2.32 0-3.22s-2.32-.89-3.22 0Z"/>
-                                        <path d="M19 12.25 9.75 3"/>
-                                        <path d="M7.07 11.5L11.5 7.07"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 content-prose">
-                                <h3 class="text-xl font-bold mt-0">Graphic Design Examples</h3>
-                                <p class="text-md font-medium text-gray-700 !-mt-2">Graphic Designer</p>
-                                <!-- Removed timestamp line -->
-                                <h4>Here are some of my graphic design works!</h4>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-4">
-                                    <a href="https://tr.rbxcdn.com/180DAY-bb6dec4ad7429ff02f71e88d5b0cb33b/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-bb6dec4ad7429ff02f71e88d5b0cb33b/150/150/Image/Png/noFilter" alt="Roblox game logo with 'Obby' in bold text and a stylized 'O'" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-428d3da65efe5ecd085b995a6af90fee/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-428d3da65efe5ecd085b995a6af90fee/150/150/Image/Png/noFilter" alt="Roblox game icon featuring a cute blue character with a pickaxe for a simulator game" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-f057ebd38d0b2f755acdae15d1da9c96/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-f057ebd38d0b2f755acdae15d1da9c96/150/150/Image/Png/noFilter" alt="Roblox group icon with a simple, modern 'L' design" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-3a76c102db132d65b6c9d28345817773/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-3a76c102db132d65b6c9d28345817773/150/150/Image/Png/noFilter" alt="Roblox game logo with a yellow 'Simulator' title and star elements" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-f08b116a064c4031a2a9d1198540fa09/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-f08b116a064c4031a2a9d1198540fa09/150/150/Image/Png/noFilter" alt="Roblox game icon with a stylized 'R' and abstract shapes" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-71f2d483ef0c958cdfd9763422c5aa0d/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-71f2d483ef0c958cdfd9763422c5aa0d/150/150/Image/Png/noFilter" alt="Roblox game icon featuring a purple gradient and abstract lines" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-223a3c0dec95a021dc9e5efee21aa37e/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-223a3c0dec95a021dc9e5efee21aa37e/150/150/Image/Png/noFilter" alt="Roblox game icon for 'Noob's Difficulty Chart Obby' with a noob character" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-f9755976cb4a391c0085fb2001049fcd/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-f9755976cb4a391c0085fb2001049fcd/150/150/Image/Png/noFilter" alt="Roblox game icon with a green and yellow color scheme, featuring a play button" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-bb991054ec817d1c532677f5666a8ef5/420/420/Image/Png/noFilter" data-fancybox="gallery-graphic-design">
-                                        <img src="https://tr.rbxcdn.com/180DAY-bb991054ec817d1c532677f5666a8ef5/150/150/Image/Png/noFilter" alt="Roblox game icon with abstract blue and pink shapes" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="border-gray-200">
-
-                        <!-- Project Entry: PLS SHOP! -->
-                        <div class="flex flex-col md:flex-row gap-6">
-                            <div class="flex-shrink-0 flex justify-center md:justify-start">
-                                <!-- Icon: 3D Cube for Modeling (Heroicons, kept as it's clear) -->
-                                <div class="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 content-prose">
-                                <h3 class="text-xl font-bold mt-0">PLS SHOP! (Donation Game)</h3>
-                                <p class="text-md font-medium text-gray-700 !-mt-2">Modeller at Greater Studios!</p>
-                                <!-- Removed timestamp line -->
-                                <h4>💸 PLS SHOP PROJECT</h4>
-                                <p>In this project that I helped work on, the main idea of the game is to go up to players' shops and donate to them.</p>
-                                <p>I helped by creating multiple assets for the game. Some of these assets include:</p>
-                                <ol>
-                                    <li>Normal Trees</li>
-                                    <li>Berry Trees</li>
-                                    <li>Pine Trees</li>
-                                    <li>Bushes</li>
-                                    <li>Berry Bushes</li>
-                                </ol>
-                                <!-- External Link Heading is H3 -->
-                                <h3><a href="https://www.roblox.com/games/12338682025/PLS-SHOP-Donation-Game" target="_blank" rel="noopener noreferrer">💸 PLS SHOP!</a></h3>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 gap-4 mt-4">
-                                    <a href="https://tr.rbxcdn.com/180DAY-1cfeaafa7b7cdd379d8f72b1f3a1b105/420/420/Image/Png/noFilter" data-fancybox="gallery-pls-shop">
-                                        <img src="https://tr.rbxcdn.com/180DAY-1cfeaafa7b7cdd379d8f72b1f3a1b105/150/150/Image/Png/noFilter" alt="Screenshot of 'PLS SHOP!' game with a colorful shop booth" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-72ba5506155976dea211f39161c3d666/420/420/Image/Png/noFilter" data-fancybox="gallery-pls-shop">
-                                        <img src="https://tr.rbxcdn.com/180DAY-72ba5506155976dea211f39161c3d666/150/150/Image/Png/noFilter" alt="Screenshot of 'PLS SHOP!' game showing various player-built shops" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-8662445b6217e321e21bb0d17ae48e6e/420/420/Image/Png/noFilter" data-fancybox="gallery-pls-shop">
-                                        <img src="https://tr.rbxcdn.com/180DAY-8662445b6217e321e21bb0d17ae48e6e/150/150/Image/Png/noFilter" alt="Overhead view of 'PLS SHOP!' game with multiple player characters" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="border-gray-200">
-
-                        <!-- Project Entry: Tower of Explosions -->
-                        <div class="flex flex-col md:flex-row gap-6">
-                            <div class="flex-shrink-0 flex justify-center md:justify-start">
-                                <!-- Icon: Code for Scripting (Heroicons, kept as it's clear) -->
-                                <div class="bg-red-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 12" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 content-prose">
-                                <h3 class="text-xl font-bold mt-0">Tower of Explosions</h3>
-                                <p class="text-md font-medium text-gray-700 !-mt-2">Main Scripter | Builder | GUI at Greater Studios</p>
-                                <!-- Removed timestamp line -->
-                                <h4>💥 Tower of Explosions Project</h4>
-                                <p>In this game you try to reach the top of a randomly generated tower filled with challenging stages. In the middle of every round, bombs drop and players have to try and avoid them.</p>
-                                <p>My job in this game was mainly to script but also to build.</p>
-                                <p>I scripted the <em>main framework</em> of the game that made it work and also many other parts of the game. I also created and scripted the entire crate system and I created all the different halos. Some of the halos also have effects e.g the hacker halo, forest halo, dizzy halo etc. I also made some of the stages. I scripted most of the GUI in the game.</p>
-                                <!-- External Link Heading is H3 -->
-                                <h3><a href="https://www.roblox.com/games/12504463969/HALOS-Tower-of-Explosions" target="_blank" rel="noopener noreferrer">💥 Tower of Explosions</a></h3>
-                                <p>We also have a Discord Community Server attached to the game.</p>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-4">
-                                    <a href="https://tr.rbxcdn.com/180DAY-82e33d4fde9a4ee178de83ddc2a29f3b/420/420/Image/Png/noFilter" data-fancybox="gallery-tower-explosions">
-                                        <img src="https://tr.rbxcdn.com/180DAY-82e33d4fde9a4ee178de83ddc2a29f3b/150/150/Image/Png/noFilter" alt="Screenshot of 'Tower of Explosions' game with a vibrant obby stage" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-bd8bbdbda8c5fe31df7121d5987305b1/420/420/Image/Png/noFilter" data-fancybox="gallery-tower-explosions">
-                                        <img src="https://tr.rbxcdn.com/180DAY-bd8bbdbda8c5fe31df7121d5987305b1/150/150/Image/Png/noFilter" alt="In-game screenshot of a player on a platform in 'Tower of Explosions'" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-16f9adf7921ece453dda6013b9caac61/420/420/Image/Png/noFilter" data-fancybox="gallery-tower-explosions">
-                                        <img src="https://tr.rbxcdn.com/180DAY-16f9adf7921ece453dda6013b9caac61/150/150/Image/Png/noFilter" alt="Gameplay screenshot showing multiple players on a tower stage" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-2235064d26bb86f65429e468799fa252/420/420/Image/Png/noFilter" data-fancybox="gallery-tower-explosions">
-                                        <img src="https://tr.rbxcdn.com/180DAY-2235064d26bb86f65429e468799fa252/150/150/Image/Png/noFilter" alt="Image showing a 'Tower of Explosions' game lobby with interactive elements" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-8f2170dfb6c8f49ec732230a96428954/420/420/Image/Png/noFilter" data-fancybox="gallery-tower-explosions">
-                                        <img src="https://tr.rbxcdn.com/180DAY-8f2170dfb6c8f49ec732230a96428954/150/150/Image/Png/noFilter" alt="Close-up of a decorative halo item in 'Tower of Explosions'" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="border-gray-200">
-
-                         <!-- Project Entry: Long Jump Obby -->
-                        <div class="flex flex-col md:flex-row gap-6">
-                           <div class="flex-shrink-0 flex justify-center md:justify-start">
-                                <!-- Icon: Footprints for Obby/Jump Games (Heroicons, kept as it's clear) -->
-                                <div class="bg-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75 12 3m0 0-3.75 3.75M12 3v11.25m-4.5 9H19.5a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5H4.5A2.25 2.25 0 0 0 2.25 6.75v11.25a2.25 2.25 0 0 0 2.25 2.25h13.5Z" />
-                                      </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 content-prose">
-                                <h3 class="text-xl font-bold mt-0">Long Jump Difficulty Chart Obby</h3>
-                                <p class="text-md font-medium text-gray-700 !-mt-2">Creator</p>
-                                <!-- Removed timestamp line -->
-                                <h4>Stud Long Jump Difficulty Chart Obby Project!</h4>
-                                <p>In this game players can test their skill by seeing how far they can jump in this obby. The obby is categorised into different difficulties, progressively getting harder as the players beat the stages.</p>
-                                <p>I entirely scripted and built the game. One interesting part of this game that I had to script was the automatic generation of the stages. There is only one stage template that is duplicated and categorised into different difficulties in one script. I had to use <em>nth term</em> to correctly position each platform and stage.</p>
-                                <!-- External Link Heading is H3 -->
-                                <h3><a href="https://www.roblox.com/games/11933559184/Stud-Long-Jump-Difficulty-Chart-Obby" target="_blank" rel="noopener noreferrer">Stud Long Jump Difficulty Chart Obby</a></h3>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 gap-4 mt-4">
-                                    <a href="https://tr.rbxcdn.com/180DAY-f35306e915678c5e8a35d819b684fd68/420/420/Image/Png/noFilter" data-fancybox="gallery-long-jump">
-                                        <img src="https://tr.rbxcdn.com/180DAY-f35306e915678c5e8a35d819b684fd68/150/150/Image/Png/noFilter" alt="Screenshot of 'Long Jump Difficulty Chart Obby' showing long platforms" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                    <a href="https://tr.rbxcdn.com/180DAY-cc5de6f300f63e499f1580ee13582413/420/420/Image/Png/noFilter" data-fancybox="gallery-long-jump">
-                                        <img src="https://tr.rbxcdn.com/180DAY-cc5de6f300f63e499f1580ee13582413/150/150/Image/Png/noFilter" alt="Another screenshot of 'Long Jump Difficulty Chart Obby' with varied platform designs" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <hr class="border-gray-200">
-                         
-                        <!-- Project Entry: How far can you jump -->
-                        <div class="flex flex-col md:flex-row gap-6">
-                           <div class="flex-shrink-0 flex justify-center md:justify-start">
-                                <!-- Updated Icon: Rocket for Jump/Speed Game (Lucide) -->
-                                <div class="bg-yellow-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rocket w-7 h-7">
-                                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c1.26-1.5 2-2 2-2L13.4 2.3c-.4-.4-1-.4-1.4 0L6.3 8.2c-1.7 1.7-2 4.4-.9 6.2Z"/>
-                                        <path d="M7.8 13.4 2.3 18.9c-.4.4-.4 1 0 1.4s1 .4 1.4 0L9.2 14.8"/>
-                                        <path d="m14.3 14.3 6.4-6.4c.4-.4.4-1 0-1.4s-1-.4-1.4 0L12.9 12.9"/>
-                                        <path d="M19.5 21a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2c0 1.1.9 2 2 2Z"/>
-                                        <path d="M14.8 14.8 19 19"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 content-prose">
-                                <h3 class="text-xl font-bold mt-0">🚀 How far can you jump!</h3>
-                                <p class="text-md font-medium text-gray-700 !-mt-2">Creator</p>
-                                <!-- Removed timestamp line -->
-                                <h4>🚀 How far can you jump Project!</h4>
-                                <p>In this game, you can run across a runway then jump at the end. Players have to try and reach as far as they can, and they can achieve this by buying upgrades in the shop.</p>
-                                <p>The game was entirely scripted by me and also entirely built by me.</p>
-                                <!-- External Link Heading is H3 -->
-                                <h3><a href="https://www.roblox.com/games/11273527485/FREE-ADMIN-How-far-can-you-jump" target="_blank" rel="noopener noreferrer">🚀 How far can you jump!</a></h3>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 gap-4 mt-4">
-                                     <a href="https://tr.rbxcdn.com/180DAY-97eb674934440ac26d84f73a5be01705/420/420/Image/Png/noFilter" data-fancybox="gallery-how-far-jump">
-                                         <img src="https://tr.rbxcdn.com/180DAY-97eb674934440ac26d84f73a5be01705/150/150/Image/Png/noFilter" alt="Screenshot of 'How far can you jump!' game with a long runway" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="border-gray-200">
-
-                        <!-- Project Entry: Noob's Difficulty Chart Obby -->
-                        <div class="flex flex-col md:flex-row gap-6">
-                           <div class="flex-shrink-0 flex justify-center md:justify-start">
-                                <!-- Updated Icon: Blocks for Obby Kit (Lucide) -->
-                                <div class="bg-indigo-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-blocks w-7 h-7">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                                        <path d="m3 7.6 7 4.04v8.11"/>
-                                        <path d="m21 7.6-7 4.04v8.11"/>
-                                        <path d="m7.5 12.5 7 4.04"/>
-                                        <path d="m12 2.6v17.4"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 content-prose">
-                                <h3 class="text-xl font-bold mt-0">Noob's Difficulty Chart Obby</h3>
-                                <p class="text-md font-medium text-gray-700 !-mt-2">Creator at The Noob's</p>
-                                <!-- Removed timestamp line -->
-                                <h4>Noob's Difficulty Chart Obby Project!</h4>
-                                <p>This game is a classic Difficulty Chart Obby. Players make their way through challenging stages that progressively get harder. There are multiple difficulties and there are still some more to come!</p>
-                                <p>For this game I am the the Main Scripter and Main Builder. Others have helped with some of the stages as well. I scripted the main backbone of the game and everything else such as GUI, Stage Transfer etc. I also made most of the stages. I also made all of the unique obby parts. An interesting part about them is that, I made a script that makes it so, if you name a part a specific name, it becomes that unique obby part.</p>
-                                <p>e.g If you name a part "SpinningPart", and inside the part you put an axis value determining which axis it is to spin on and a speed value determining the speed, it automatically makes the part work without the need of adding any more scripts.</p>
-                                <p>It can be done with many other obby parts as well such as: "PusherPart", "KillPart", "DamageBrick" etc.</p>
-                                <p>I made a game that showcases all of this and you can see it <strong><a href="https://www.roblox.com/games/12008992017/Elements-Obby-Kit-Showcase" target="_blank" rel="noopener noreferrer">here</a></strong>.</p>
-                                <h3>This game is still an ongoing project so more stages are to come soon!</h3>
-                                <!-- External Link Heading is H3 -->
-                                <h3><a href="https://www.roblox.com/games/11291357683/Noobs-Difficulty-Chart-Obby-WIP" target="_blank" rel="noopener noreferrer">Noob's Difficulty Chart Obby</a></h3>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 gap-4 mt-4">
-                                     <a href="https://tr.rbxcdn.com/180DAY-feaf0c9d6e8b29cd74df02d82f91f5fd/420/420/Image/Png/noFilter" data-fancybox="gallery-noobs-dco">
-                                         <img src="https://tr.rbxcdn.com/180DAY-feaf0c9d6e8b29cd74df02d82f91f5fd/150/150/Image/Png/noFilter" alt="Screenshot of 'Noob's Difficulty Chart Obby' showing diverse obby stages" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="border-gray-200">
-
-                        <!-- Project Entry: UGC Portfolio -->
-                        <div class="flex flex-col md:flex-row gap-6">
-                           <div class="flex-shrink-0 flex justify-center md:justify-start">
-                                <!-- Icon: Hat/Star for UGC Portfolio (Heroicons, kept as it's clear) -->
-                                <div class="bg-pink-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-7 h-7">
-                                        <path d="m12 3-1.912 5.813L3 12l7.088 3.188L12 21l1.912-5.813L21 12l-7.088-3.188L12 3Z"/>
-                                      </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 content-prose">
-                                <h3 class="text-xl font-bold mt-0">UGC Portfolio</h3>
-                                <p class="text-md font-medium text-gray-700 !-mt-2">Modeller, Texturer</p>
-                                <!-- Removed timestamp line -->
-                                <h4>⭐ My UGC Portfolio ⭐</h4>
-                                <p>Here I am showcasing some of my creations. I'm trying to get better and eventually get into the <strong>UGC Program!</strong></p>
-                                <h3>I hope you like them!</h3>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 gap-4 mt-4">
-                                     <a href="https://tr.rbxcdn.com/180DAY-cc004d432851804d54111de9a47accca/420/420/Image/Png/noFilter" data-fancybox="gallery-ugc">
-                                        <img src="https://tr.rbxcdn.com/180DAY-cc004d432851804d54111de9a47accca/150/150/Image/Png/noFilter" alt="Roblox UGC concept: a futuristic helmet with glowing elements" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                     </a>
-                                     <a href="https://tr.rbxcdn.com/180DAY-99ee1a6b9fba375f9497359b5c022606/420/420/Image/Png/noFilter" data-fancybox="gallery-ugc">
-                                        <img src="https://tr.rbxcdn.com/180DAY-99ee1a6b9fba375f9497359b5c022606/150/150/Image/Png/noFilter" alt="Roblox UGC concept: a backpack with mechanical wings" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                     </a>
-                                     <a href="https://tr.rbxcdn.com/180DAY-f3d354111c2926972cb8798285842ba9/420/420/Image/Png/noFilter" data-fancybox="gallery-ugc">
-                                        <img src="https://tr.rbxcdn.com/180DAY-f3d354111c2926972cb8798285842ba9/150/150/Image/Png/noFilter" alt="Roblox UGC concept: a stylized crown with intricate details" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                     </a>
-                                     <a href="https://tr.rbxcdn.com/180DAY-2c4e650341e206f42cc7eea10164874a/420/420/Image/Png/noFilter" data-fancybox="gallery-ugc">
-                                        <img src="https://tr.rbxcdn.com/180DAY-2c4e650341e206f42cc7eea10164874a/150/150/Image/Png/noFilter" alt="Roblox UGC concept: a pair of glowing sci-fi glasses" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                     </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="border-gray-200">
-
-                        <!-- Project Entry: Race A Friend! -->
-                        <div class="flex flex-col md:flex-row gap-6">
-                           <div class="flex-shrink-0 flex justify-center md:justify-start">
-                                <!-- Icon: Trophy for Racing/Simulator Games (Heroicons, kept as it's clear) -->
-                                <div class="bg-teal-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25H18a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 18 4.5H6A2.25 2.25 0 0 0 3.75 6.75v11.25a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                      </svg>
-                                </div>
-                            </div>
-                            <div class="flex-1 content-prose">
-                                <h3 class="text-xl font-bold mt-0">Race A Friend!</h3>
-                                <p class="text-md font-medium text-gray-700 !-mt-2">Scripter at Soap!</p>
-                                <!-- Removed timestamp line -->
-                                <h4>🏁 Race A Friend Project!</h4>
-                                <p>This was a <strong>simulator</strong> type project. In this game, you gain speed by training on treadmills and you can then race different NPCs (that are dressed as your friends) to earn wins. You can then hatch pets with these wins and go to different zones.</p>
-                                <p>My job in this game was to help <strong>fix bugs</strong> and to add <strong>new features</strong> that made the game easier to play. I also helped in the <strong>scripting</strong> of <strong>new zones</strong> and some of the framework of the game.</p>
-                                <p>There is also another game uploaded by the same group (Soap!) called <em><strong>"Skate Battle Simulator"</strong></em> which is pretty much the same concept but with skateboards. The code was transferred to that game which means I have also played a part in there.</p>
-                                <p>The <em>'Soap!'</em> group also has a <em><strong>Discord community server.</strong></em> I am currently part of the <strong>Administration Team</strong> and I help out our players who require assistance and I also help with other things.</p>
-                                <!-- External Link Headings are H3 -->
-                                <h3><a href="https://www.roblox.com/games/14018688391/Race-A-Friend" target="_blank" rel="noopener noreferrer">Race A Friend!</a></h3>
-                                <h3><a href="https://www.roblox.com/games/14555484666/Skate-Battle-Simulator" target="_blank" rel="noopener noreferrer">Skate Battle Simulator</a></h3>
-                                <h3><a href="https://www.roblox.com/groups/17016662/Soap/" target="_blank" rel="noopener noreferrer">Soap!</a></h3>
-                                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-4">
-                                     <a href="https://tr.rbxcdn.com/180DAY-b1d92db52605f4f475881790a80b9bfb/420/420/Image/Png/noFilter" data-fancybox="gallery-race-friend">
-                                        <img src="https://tr.rbxcdn.com/180DAY-b1d92db52605f4f475881790a80b9bfb/150/150/Image/Png/noFilter" alt="Screenshot of 'Race A Friend!' game showcasing characters on a racetrack" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                     </a>
-                                     <a href="https://tr.rbxcdn.com/180DAY-fd1ce30e422858e85d605c75e762db8b/420/420/Image/Png/noFilter" data-fancybox="gallery-race-friend">
-                                        <img src="https://tr.rbxcdn.com/180DAY-fd1ce30e422858e85d605c75e762db8b/150/150/Image/Png/noFilter" alt="Close-up of a character racing in 'Race A Friend!'" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                     </a>
-                                     <a href="https://tr.rbxcdn.com/180DAY-72088a6410e349e6c783004442e8bf32/420/420/Image/Png/noFilter" data-fancybox="gallery-race-friend">
-                                        <img src="https://tr.rbxcdn.com/180DAY-72088a6410e349e6c783004442e8bf32/150/150/Image/Png/noFilter" alt="Screenshot of the 'Race A Friend!' game showing multiple racing lanes" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                    </a>
-                                     <a href="https://tr.rbxcdn.com/180DAY-3d6e34247a73d75323d3e77cdf0bcb18/420/420/Image/Png/noFilter" data-fancybox="gallery-race-friend">
-                                        <img src="https://tr.rbxcdn.com/180DAY-3d6e34247a73d75323d3e77cdf0bcb18/150/150/Image/Png/noFilter" alt="Overhead view of the 'Race A Friend!' game with a colorful environment" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                     </a>
-                                     <a href="https://tr.rbxcdn.com/180DAY-921aa1f7eba1f3e1c2d133c2f3feb833/420/420/Image/Png/noFilter" data-fancybox="gallery-race-friend">
-                                        <img src="https://tr.rbxcdn.com/180DAY-921aa1f7eba1f3e1c2d133c2f3feb833/150/150/Image/Png/noFilter" alt="Game screenshot of a shop area in 'Race A Friend!'" class="rounded-lg shadow-md hover:scale-105 transition-transform duration-300" loading="lazy">
-                                     </a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </main>
+    <div class="controls">
+      <div>
+        <div class="btn-row">
+          <button id="startBtn" class="start">Start monitoring</button>
+          <button id="stopBtn" class="stop" disabled>Stop</button>
+          <button id="muteBtn">Mute</button>
         </div>
-        
-        <!-- Footer Section -->
-        <footer class="text-center mt-12 py-6 border-t border-gray-200">
-            <p class="text-gray-500">&copy; 2024 elementerzz. All rights reserved.</p>
-        </footer>
 
+        <div class="section">
+          <label>Input device</label>
+          <select id="inputSelect"></select>
+          <label>Monitor gain</label>
+          <input id="gain" type="range" min="0" max="2" step="0.01" value="0.8">
+        </div>
+
+        <div class="section">
+          <label><input type="checkbox" id="aggressiveMode"> Aggressive Low-Latency (Worklet Reverb)</label>
+          <div class="small">When enabled, reverb and monitoring run inside an AudioWorklet for minimal buffering. If the worklet cannot be loaded the page will fall back to convolution IR automatically.</div>
+
+          <label style="margin-top:8px"><input type="checkbox" id="directMonitor"> Direct Monitor (bias to dry)</label>
+          <div class="small">Keep checked for lowest latency; uncheck to let reverb be more audible.</div>
+        </div>
+
+        <div class="section">
+          <label>Reverb — Wet (0–1)</label>
+          <input id="wet" type="range" min="0" max="1" step="0.01" value="0.45">
+          <label>Decay (s)</label>
+          <input id="decay" type="range" min="0.2" max="6" step="0.1" value="2.4">
+          <label>Pre-delay (ms)</label>
+          <input id="preDelay" type="range" min="0" max="120" step="1" value="18">
+
+          <div style="margin-top:8px" class="row">
+            <button id="testReverb">Test Reverb</button>
+            <button id="forceFallback">Force Convolver (fallback)</button>
+          </div>
+          <div class="status" id="reverbStatus">Reverb status: unknown</div>
+        </div>
+
+      </div>
+
+      <div>
+        <div class="section">
+          <label>VU Meter</label>
+          <div class="meter"><div class="meter-bar"><div id="meterFill" class="meter-fill"></div></div></div>
+          <div id="statusText" class="small">Status: stopped</div>
+          <div id="eventLog" class="log"></div>
+        </div>
+
+        <div class="section">
+          <label>Latency tips</label>
+          <div class="small"><ul>
+            <li>Use Chrome or Firefox (latest).</li>
+            <li>Use wired headphones (no Bluetooth) and preferably a USB or built-in mic.</li>
+            <li>Enable <strong>Aggressive Low-Latency</strong> for the worklet reverb; if it fails the page will fall back to convolution automatically.</li>
+          </ul></div>
+        </div>
+      </div>
     </div>
 
-    <!-- Contact Modal -->
-    <div id="contactModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="hideContactModal()">&times;</span>
-            <h3 class="text-2xl font-bold text-gray-900 mb-6">Contact elementerzz</h3>
-            <div class="contact-info space-y-4">
-                <!-- Roblox Contact Card -->
-                <div class="roblox-card contact-card">
-                    <!-- Roblox Icon SVG (Simplified, clean) -->
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 0L0 6V18L12 24L24 18V6L12 0ZM12 2.309L21.732 7.747L12 13.185L2.268 7.747L12 2.309ZM2 8.423V16.577L12 22.015V13.861L2 8.423ZM22 8.423L12 13.861V22.015L22 16.577V8.423Z"/>
-                    </svg>
-                    <span>Roblox: <a href="https://www.roblox.com/users/profile?username=elementerzz" target="_blank" rel="noopener noreferrer">elementerzz</a></span>
-                </div>
-                <!-- Discord Contact Card with Copy Button -->
-                <div class="discord-card contact-card">
-                    <!-- Discord Icon SVG (Simplified, clean) -->
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20.25 0H3.75C1.679 0 0 1.791 0 3.75V24L5.25 18.75H20.25C22.321 18.75 24 17.039 24 15V3.75C24 1.791 22.321 0 20.25 0ZM15.75 12.75C14.716 12.75 13.875 11.909 13.875 10.875C13.875 9.841 14.716 9 15.75 9C16.784 9 17.625 9.841 17.625 10.875C17.625 11.909 16.784 12.75 15.75 12.75ZM8.25 12.75C7.216 12.75 6.375 11.909 6.375 10.875C6.375 9.841 7.216 9 8.25 9C9.284 9 10.125 9.841 10.125 10.875C10.125 11.909 9.284 12.75 8.25 12.75Z"/>
-                    </svg>
-                    <span>Discord: elementerzz</span>
-                    <button id="copyDiscordBtn" class="discord-copy-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v2"/></svg>
-                        Copy
-                    </button>
-                    <!-- Message for copy success/failure -->
-                    <div id="discordCopyMessage" class="copy-message"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="small" style="margin-top:12px">If it still doesn't show reverb after these tests, open the browser console (Inspect → Console) and paste the last 20 lines here so I can patch the exact failure.</div>
+  </div>
 
+<script>
+(async function(){
+  // UI references
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const muteBtn = document.getElementById('muteBtn');
+  const inputSelect = document.getElementById('inputSelect');
+  const gainSlider = document.getElementById('gain');
+  const meterFill = document.getElementById('meterFill');
+  const statusText = document.getElementById('statusText');
+  const eventLog = document.getElementById('eventLog');
+  const aggressiveCheckbox = document.getElementById('aggressiveMode');
+  const directCheckbox = document.getElementById('directMonitor');
+  const wetControl = document.getElementById('wet');
+  const decayControl = document.getElementById('decay');
+  const preDelayControl = document.getElementById('preDelay');
+  const testBtn = document.getElementById('testReverb');
+  const fallbackBtn = document.getElementById('forceFallback');
+  const reverbStatusEl = document.getElementById('reverbStatus');
+
+  function log(msg){ const t=new Date().toLocaleTimeString(); eventLog.textContent = `[${t}] ${msg}
+` + eventLog.textContent; console.log('[MicMon]',msg); }
+  function setStatus(s){ statusText.textContent = 'Status: '+s; log(s); }
+  function setReverbStatus(s){ reverbStatusEl.textContent = 'Reverb status: '+s; log('reverb: '+s); }
+
+  let audioCtx=null, stream=null, srcNode=null;
+  let postGain=null, analyser=null;
+  let workletNode=null, workletAvailable=false;
+  let convolver=null, wetGain=null, dryGain=null, delayNode=null;
+  let rafId=null; let muted=false; let forcedFallback=false;
+
+  async function enumerateInputs(){ try{ const devs = await navigator.mediaDevices.enumerateDevices(); const ins = devs.filter(d=>d.kind==='audioinput'); const cur = inputSelect.value; inputSelect.innerHTML=''; ins.forEach(d=>{ const o=document.createElement('option'); o.value=d.deviceId; o.textContent=d.label||('Mic('+d.deviceId.slice(-4)+')'); inputSelect.appendChild(o); }); if (cur) inputSelect.value = cur; }catch(e){ inputSelect.innerHTML=''; const o=document.createElement('option'); o.value=''; o.textContent='Default microphone'; inputSelect.appendChild(o); } }
+
+  function createAudioContext(){ if (audioCtx) return; try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)({ latencyHint:'interactive' }); }catch(e){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+    postGain = audioCtx.createGain(); analyser = audioCtx.createAnalyser(); analyser.fftSize = 256; postGain.connect(analyser); analyser.connect(audioCtx.destination); postGain.gain.value = parseFloat(gainSlider.value);
+    // convolver path
+    convolver = audioCtx.createConvolver(); wetGain = audioCtx.createGain(); dryGain = audioCtx.createGain(); delayNode = audioCtx.createDelay(2.0);
+    // wet/dry routing into postGain
+    wetGain.connect(postGain); dryGain.connect(postGain);
+    wetGain.gain.value = parseFloat(wetControl.value); dryGain.gain.value = 1 - parseFloat(wetControl.value);
+    audioCtx.onstatechange = ()=>{ log('audioCtx: '+audioCtx.state); if (audioCtx.state==='suspended') audioCtx.resume().catch(()=>{}); };
+  }
+
+  // Worklet code: compact low-latency reverb (Schroeder + predelay)
+  const workletCode = `
+  class LLReverb extends AudioWorkletProcessor {
+    constructor(){
+      super(); this.sampleRate = sampleRate;
+      this.preDelayMax = Math.floor(0.12*this.sampleRate);
+      this.preBuf = new Float32Array(this.preDelayMax); this.preIdx = 0; this.preSamples = Math.floor(0.018*this.sampleRate);
+      // simple comb/allpass network
+      this.combLens = [0.0297,0.0371,0.0411,0.0437].map(d=>Math.floor(d*this.sampleRate));
+      this.combBufs = this.combLens.map(l=>new Float32Array(l)); this.combIdx = new Array(this.combLens.length).fill(0);
+      this.combG = new Array(this.combLens.length).fill(0.78);
+      this.apLens = [0.005,0.0017].map(d=>Math.floor(d*this.sampleRate)); this.apBufs = this.apLens.map(l=>new Float32Array(l)); this.apIdx = new Array(this.apLens.length).fill(0);
+      this.apG = [0.7,0.5]; this.wet=0.45; this.dry=0.55; this.decay=2.4; this.port.onmessage=(e)=>{ const d=e.data; if(d.wet!==undefined) this.wet=d.wet; if(d.decay!==undefined) this.decay=d.decay; if(d.preDelayMs!==undefined) this.preSamples = Math.min(this.preDelayMax, Math.floor(d.preDelayMs*this.sampleRate/1000)); if(d.dry!==undefined) this.dry=d.dry; } }
+    process(inputs,outputs){ const input = inputs[0]; const output = outputs[0]; if(!input||!input[0]||!output||!output[0]) return true; const inBuf = input[0]; const outBuf = output[0]; for(let i=0;i<inBuf.length;i++){ // pre-delay
+        this.preBuf[this.preIdx] = inBuf[i]; const readIdx = (this.preIdx - this.preSamples + this.preDelayMax) % this.preDelayMax; const pre = this.preBuf[readIdx]; this.preIdx = (this.preIdx+1)%this.preDelayMax;
+        // comb
+        let csum=0; for(let c=0;c<this.combBufs.length;c++){ const buf=this.combBufs[c]; const idx=this.combIdx[c]; const out = buf[idx]; buf[idx] = pre + out*this.combG[c]; this.combIdx[c] = (idx+1)%buf.length; csum+=out; }
+        // allpass
+        let ap=csum; for(let a=0;a<this.apBufs.length;a++){ const buf=this.apBufs[a]; const idx=this.apIdx[a]; const bout = buf[idx]; const inp = ap; buf[idx] = inp + bout*this.apG[a]; ap = bout - inp*this.apG[a]; this.apIdx[a] = (idx+1)%buf.length; }
+        const wetSample = ap*0.5; outBuf[i] = inBuf[i]*this.dry + wetSample*this.wet; } return true; }
+  }
+  registerProcessor('ll-reverb',LLReverb);
+  `;
+
+  async function loadWorklet(){ if (!audioCtx) createAudioContext(); if (!audioCtx.audioWorklet) { workletAvailable=false; setReverbStatus('worklet not supported'); return false; }
+    if (workletAvailable) return true;
+    try{ const blob = new Blob([workletCode], {type:'application/javascript'}); const url = URL.createObjectURL(blob); await audioCtx.audioWorklet.addModule(url); workletNode = new AudioWorkletNode(audioCtx,'ll-reverb'); // initial params
+      workletNode.port.postMessage({wet: parseFloat(wetControl.value), decay: parseFloat(decayControl.value), preDelayMs: parseFloat(preDelayControl.value), dry: 1-parseFloat(wetControl.value)});
+      workletAvailable = true; setReverbStatus('worklet loaded'); return true; }catch(err){ console.warn('worklet load failed', err); workletAvailable=false; setReverbStatus('worklet failed: '+(err&&err.message)); return false; } }
+
+  // build convolution IR fallback (async, using OfflineAudioContext)
+  async function buildConvolverIR(decaySec=2.4,preset='masjid'){ if (!audioCtx) createAudioContext(); setReverbStatus('building IR...'); try{ const capped = Math.min(6,Math.max(0.2,decaySec)); const rate = audioCtx.sampleRate; const len = Math.floor(rate*capped); const offline = new OfflineAudioContext(2,len,rate); const ir = offline.createBuffer(2,len,rate); for(let ch=0;ch<2;ch++){ const data = ir.getChannelData(ch); for(let i=0;i<len;i++){ const t=i/len; const decay = Math.pow(1-t,capped*1.8); const n = (Math.random()*2-1); data[i] = n*decay*(0.9 - 0.6*t); } } const src = offline.createBufferSource(); src.buffer = ir; src.connect(offline.destination); src.start(); const rendered = await offline.startRendering(); convolver.buffer = rendered; setReverbStatus('convolver ready'); return true; }catch(err){ console.warn('IR build failed',err); setReverbStatus('IR build failed'); return false; } }
+
+  function startMetering(){ const buf = new Uint8Array(analyser.frequencyBinCount); function loop(){ analyser.getByteTimeDomainData(buf); let peak=0; for(let i=0;i<buf.length;i++){ const v=Math.abs(buf[i]-128)/128; if(v>peak) peak=v; } meterFill.style.width = (Math.min(1,peak)*100)+'%'; rafId=requestAnimationFrame(loop); } rafId=requestAnimationFrame(loop); }
+
+  async function startStream(){ try{ setStatus('requesting microphone'); const constraints = { audio: { deviceId: inputSelect.value||undefined, echoCancellation:false, noiseSuppression:false, autoGainControl:false, channelCount:1, latency:{ideal:0} } }; stream = await navigator.mediaDevices.getUserMedia(constraints); const t = stream.getTracks()[0]; if (t){ t.onended = ()=>{ log('track ended'); setStatus('track ended'); }; t.onmute = ()=>{ log('track muted'); setStatus('track muted'); } }
+      if (srcNode) try{ srcNode.disconnect(); }catch(e){}
+      srcNode = audioCtx.createMediaStreamSource(stream);
+
+      // disconnect any previous worklet/convolver
+      try{ if (workletNode) workletNode.disconnect(); }catch(e){}
+      try{ if (convolver) convolver.disconnect(); }catch(e){}
+
+      // routing choice
+      if (aggressiveCheckbox.checked && !forcedFallback){ const ok = await loadWorklet(); if (ok && workletNode){ // route src -> worklet -> postGain
+            try{ srcNode.connect(workletNode); workletNode.connect(postGain); setReverbStatus('worklet active'); log('using worklet'); }
+            catch(e){ log('worklet connect failed, falling back'); forcedFallback=true; await ensureConvolverAndRoute(); }
+        } else { await ensureConvolverAndRoute(); }
+      } else { await ensureConvolverAndRoute(); }
+
+      postGain.gain.setValueAtTime(parseFloat(gainSlider.value), audioCtx.currentTime);
+      startMetering(); setStatus('monitoring — live');
+  }catch(err){ console.error(err); setStatus('mic unavailable'); log('getUserMedia error: '+(err&&err.message)); } }
+
+  async function ensureConvolverAndRoute(){ // build IR if not present
+    if (!convolver.buffer){ await buildConvolverIR(parseFloat(decayControl.value)); }
+    // route: src -> dryGain -> postGain ; src -> delay -> convolver -> wetGain -> postGain
+    try{ srcNode.connect(dryGain); srcNode.connect(delayNode); delayNode.connect(convolver); convolver.connect(wetGain); setReverbStatus('convolver active'); log('using convolver fallback'); }catch(e){ console.warn('convolver routing failed',e); }
+  }
+
+  // Test reverb by emitting a short impulse (via BufferSource) through the same route
+  function playImpulse(){ if (!audioCtx) createAudioContext(); const buf = audioCtx.createBuffer(1, audioCtx.sampleRate*1, audioCtx.sampleRate); const data = buf.getChannelData(0); // short impulse at start
+    data[0] = 1.0; for(let i=1;i<buf.length;i++) data[i]=0; const src = audioCtx.createBufferSource(); src.buffer = buf; // route through same routing: we'll connect to either worklet node or to convolver/dry
+    if (aggressiveCheckbox.checked && workletAvailable && !forcedFallback){ try{ const merger = audioCtx.createGain(); const tmpNode = audioCtx.createBufferSource(); tmpNode.buffer = buf; // use audio graph: buffer -> worklet -> postGain
+          tmpNode.connect(workletNode); workletNode.connect(postGain); tmpNode.start(); log('played impulse (worklet)'); setTimeout(()=>{ try{ tmpNode.disconnect(); }catch(e){} }, 1200); return; }catch(e){ log('impulse worklet failed, falling back'); forcedFallback=true; }
+    }
+    // fallback path: buffer -> delay -> convolver -> wetGain -> postGain, plus dry
+    const tmp = audioCtx.createBufferSource(); tmp.buffer = buf;
+    tmp.connect(dryGain); tmp.connect(delayNode); tmp.start(); log('played impulse (convolver)'); setTimeout(()=>{ try{ tmp.disconnect(); }catch(e){} }, 1200);
+  }
+
+  // UI handlers
+  startBtn.addEventListener('click', async ()=>{ startBtn.disabled=true; try{ await enumerateInputs(); createAudioContext(); if (audioCtx.state==='suspended') await audioCtx.resume(); await startStream(); stopBtn.disabled=false; }catch(e){ console.error(e); startBtn.disabled=false; setStatus('error starting'); } });
+  stopBtn.addEventListener('click', ()=>{ if (rafId) cancelAnimationFrame(rafId); try{ if (srcNode) srcNode.disconnect(); }catch(e){} try{ if (stream) stream.getTracks().forEach(t=>t.stop()); }catch(e){} stream=null; srcNode=null; setStatus('stopped'); startBtn.disabled=false; stopBtn.disabled=true; });
+  muteBtn.addEventListener('click', ()=>{ muted=!muted; if (muted && postGain) postGain.gain.setValueAtTime(0.0001,audioCtx.currentTime); else if (postGain) postGain.gain.setValueAtTime(parseFloat(gainSlider.value),audioCtx.currentTime); });
+  gainSlider.addEventListener('input', ()=>{ if (postGain) postGain.gain.value=parseFloat(gainSlider.value); if (workletNode) workletNode.port.postMessage({gain:parseFloat(gainSlider.value)}); });
+  wetControl.addEventListener('input', ()=>{ if (wetGain) wetGain.gain.value=parseFloat(wetControl.value); if (dryGain) dryGain.gain.value = 1 - parseFloat(wetControl.value); if (workletNode) workletNode.port.postMessage({wet:parseFloat(wetControl.value), dry:1-parseFloat(wetControl.value)}); });
+  decayControl.addEventListener('input', ()=>{ if (workletNode) workletNode.port.postMessage({decay:parseFloat(decayControl.value)}); });
+  preDelayControl.addEventListener('input', ()=>{ if (workletNode) workletNode.port.postMessage({preDelayMs:parseFloat(preDelayControl.value)}); if (delayNode) delayNode.delayTime.value = parseFloat(preDelayControl.value)/1000; });
+  testBtn.addEventListener('click', ()=>{ if (!audioCtx) createAudioContext(); playImpulse(); });
+  fallbackBtn.addEventListener('click', async ()=>{ forcedFallback=true; if (stream){ try{ if (srcNode) srcNode.disconnect(); }catch(e){} await ensureConvolverAndRoute(); setStatus('forced convolver fallback'); } });
+
+  navigator.mediaDevices && navigator.mediaDevices.addEventListener && navigator.mediaDevices.addEventListener('devicechange', async ()=>{ log('devicechange'); await enumerateInputs(); });
+  enumerateInputs();
+
+})();
+</script>
 </body>
 </html>
